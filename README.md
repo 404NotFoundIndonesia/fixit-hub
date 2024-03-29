@@ -1,4 +1,10 @@
+<div align="center">
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://avatars.githubusercontent.com/u/87377917?s=200&v=4" width="200" alt="404NFID Logo"></a></p>
+
+ [![GitHub Stars](https://img.shields.io/github/stars/404NotFoundIndonesia/fixit-hub.svg)](https://github.com/404NotFoundIndonesia/fixit-hub/stargazers)
+ [![GitHub license](https://img.shields.io/github/license/404NotFoundIndonesia/fixit-hub)](https://github.com/404NotFoundIndonesia/fixit-hub/blob/main/LICENSE)
+ 
+</div>
 
 # FixIT Hub
 
