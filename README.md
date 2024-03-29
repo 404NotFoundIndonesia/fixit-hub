@@ -37,6 +37,67 @@ __FixIT Hub__ is a web-based application designed to streamline and manage the s
 - __Frontend__: HTML5, CSS3, JavaScript
 - __Authentication__: Devise gem for user authentication
 
+## Get Started
+
+### Get the Source Code
+Of course, you need to put this code on your computer first. There are two ways to do this: by __downloading the project zip file__ or __by using Git (recommended)__.
+
+1. **Download the Project Zip**
+
+    You can click on [this link](https://github.com/404NotFoundIndonesia/fixit-hub/archive/refs/heads/main.zip) to download the zip file of this project.
+
+2. **Git Clone**
+
+    Make sure that you have installed git. Open the directory where you want to place the source code in the terminal. Then, run the following command:
+    ```shell
+    git clone git@github.com:404NotFoundIndonesia/fixit-hub.git
+    ```
+
+### Install Dependencies
+
+Run the following command to install all the dependencies (gems) required by the Rails project:
+
+```shell
+bundle install
+```
+
+### Setup Credentials
+
+Go to the `config` directory and make sure there are files named `credentials.yml.enc` and `master.key`. If they are not present, run the following command:
+
+```shell
+rails credentials:edit
+```
+
+The command will open the decrypted `credentials.yml.enc` file. Once it's open, please enter the PostgreSQL credentials in the following format:
+
+```yaml
+postgre_username: ...
+postgre_password: ...
+postgre_hostname: ...
+postgre_database: ...
+```
+
+Please replace the `...` symbols with your actual credentials.
+
+### Setup Database
+
+Run the following command to create the database, run migrations, and seed data:
+
+```shell
+rails db:setup
+```
+
+### How to Run
+
+To start the Rails server, make sure the terminal is in the root directory of the project and use the following command:
+
+```shell
+rails server
+```
+
+Open `http://localhost:3000` in your browser to access FixIT Hub.
+
 ## License
 
 __FixIT Hub__ is open-sourced software licensed under the [MIT license](https://github.com/404NotFoundIndonesia/fixit-hub?tab=MIT-1-ov-file).
