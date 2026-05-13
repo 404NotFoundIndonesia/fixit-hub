@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :assigned_service_requests, foreign_key: :technician_id, dependent: :nullify,
                                        class_name: "ServiceRequest"
   has_many :service_notes,             foreign_key: :technician_id, dependent: :destroy
+  has_many :sent_messages,             foreign_key: :sender_id,     dependent: :destroy,
+                                       class_name: "Message"
 
   # Prevent role from being mass-assigned through public params
   attr_readonly :role

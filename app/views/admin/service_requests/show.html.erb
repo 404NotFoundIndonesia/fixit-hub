@@ -61,6 +61,26 @@
   </div>
 <% end %>
 
+<%# Messages (read-only for admin) %>
+<% if @service_request.messages.any? %>
+  <div class="messaging-section">
+    <h2>Message Thread</h2>
+    <div class="messages-list messages-list--readonly">
+      <% @service_request.messages.order(:created_at).each do |msg| %>
+        <div class="message">
+          <div class="message__bubble">
+            <p class="message__body"><%= msg.body %></p>
+            <small class="message__meta">
+              <%= msg.sender.email %> (<%= msg.sender.role %>) &middot;
+              <%= msg.created_at.strftime("%d %b %H:%M") %>
+            </small>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 <%# Notes (read-only for admin) %>
 <% if @service_request.service_notes.any? %>
   <div class="notes-section">

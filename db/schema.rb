@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_05_13_060300) do
+ActiveRecord::Schema[7.0].define(version: 2026_05_13_060400) do
+  create_table "messages", force: :cascade do |t|
+    t.integer "service_request_id", null: false
+    t.integer "sender_id", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
+    t.index ["service_request_id"], name: "index_messages_on_service_request_id"
+  end
+
   create_table "service_notes", force: :cascade do |t|
     t.integer "service_request_id", null: false
     t.integer "technician_id", null: false
@@ -55,6 +65,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_13_060300) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "messages", "service_requests"
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "service_notes", "service_requests"
   add_foreign_key "service_notes", "users", column: "technician_id"
   add_foreign_key "service_requests", "users", column: "customer_id"

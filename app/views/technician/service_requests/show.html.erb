@@ -44,6 +44,27 @@
   </dl>
 </div>
 
+<%# Messaging section %>
+<div class="messaging-section" data-controller="message">
+  <h2>Messages with Customer</h2>
+
+  <%= turbo_stream_from "service_request_#{@service_request.id}_messages" %>
+
+  <div id="messages_list"
+       class="messages-list"
+       data-message-target="list">
+    <%= render partial: "messages/message", collection: @service_request.messages.order(:created_at), as: :message %>
+  </div>
+
+  <% unless @service_request.cancelled? || @service_request.completed? %>
+    <div id="new_message_form">
+      <%= render "messages/form",
+                 service_request: @service_request,
+                 message: Message.new %>
+    </div>
+  <% end %>
+</div>
+
 <%# Notes section %>
 <div class="notes-section">
   <h2>Diagnosis & Repair Notes</h2>

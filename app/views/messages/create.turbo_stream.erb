@@ -1,0 +1,11 @@
+<%# Append the new message to the thread %>
+<%= turbo_stream.append "messages_list",
+    partial: "messages/message",
+    locals: { message: @message } %>
+
+<%# Clear the form input %>
+<%= turbo_stream.replace "new_message_form" do %>
+  <%= render "messages/form",
+             service_request: @service_request,
+             message: Message.new %>
+<% end %>

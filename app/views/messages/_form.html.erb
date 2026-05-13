@@ -1,0 +1,18 @@
+<%= form_with url: service_request_messages_path(service_request),
+              id: "new_message_form",
+              class: "message-form",
+              data: { controller: "message" } do |f| %>
+  <%= render "shared/form_errors", object: message %>
+
+  <div class="message-form__input">
+    <%= f.text_area :body,
+        rows: 3,
+        placeholder: "Type a message…",
+        required: true,
+        data: { message_target: "input" } %>
+  </div>
+
+  <div class="message-form__actions">
+    <%= f.submit "Send", class: "btn btn--primary" %>
+  </div>
+<% end %>

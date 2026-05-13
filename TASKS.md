@@ -307,7 +307,7 @@ Status legend: `[ ]` pending · `[x]` done
 ## Phase 4 — Messaging
 
 ### T14 · Message Model & Scoped Threading (MSG-01, MSG-02)
-- [ ] **Task**
+- [x] **Task**
 
   Create `Message` model scoped to a `ServiceRequest`. Both customer (owner) and assigned technician can send messages within that thread.
 
@@ -329,7 +329,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T15 · Real-time Messaging via Action Cable (MSG-03)
-- [ ] **Task**
+- [x] **Task**
 
   Wire Action Cable so new messages broadcast instantly to both participants without page reload.
 

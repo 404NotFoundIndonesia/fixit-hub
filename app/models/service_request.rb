@@ -3,6 +3,7 @@ class ServiceRequest < ApplicationRecord
   belongs_to :technician, class_name: "User", foreign_key: :technician_id, optional: true
 
   has_many :service_notes, dependent: :destroy
+  has_many :messages,      dependent: :destroy
 
   enum status: {
     submitted:    0,

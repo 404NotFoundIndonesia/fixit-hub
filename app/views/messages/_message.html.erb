@@ -1,0 +1,10 @@
+<div id="<%= dom_id(message) %>"
+     class="message"
+     data-sender-id="<%= message.sender_id %>">
+  <div class="message__bubble">
+    <p class="message__body"><%= message.body %></p>
+    <small class="message__meta">
+      <%= message.sender.email %> &middot; <%= message.created_at.strftime("%d %b %H:%M") %>
+    </small>
+  </div>
+</div>

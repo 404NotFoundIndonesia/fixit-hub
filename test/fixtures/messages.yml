@@ -1,0 +1,9 @@
+customer_message:
+  service_request: assigned_request
+  sender: customer
+  body: Hi, any update on my laptop?
+
+technician_message:
+  service_request: assigned_request
+  sender: technician
+  body: Hi! We're currently running diagnostics. Should have an update by tomorrow.
