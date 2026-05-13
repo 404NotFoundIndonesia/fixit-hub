@@ -262,7 +262,7 @@ Status legend: `[ ]` pending · `[x]` done
 ## Phase 3 — User Management
 
 ### T12 · Admin: Technician Account Management (UM-01)
-- [ ] **Task**
+- [x] **Task**
 
   Admin can create technician accounts (bypassing public signup), edit their profile info, and deactivate (soft-delete via `active` boolean). Deactivated technicians cannot log in and cannot receive new assignments.
 
@@ -285,7 +285,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T13 · Admin: Customer Profiles & Service History (UM-02)
-- [ ] **Task**
+- [x] **Task**
 
   Admin can view a list of all customers and drill into any customer's profile showing all their service requests.
 

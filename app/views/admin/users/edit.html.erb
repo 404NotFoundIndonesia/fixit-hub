@@ -1,0 +1,14 @@
+<div class="page-header">
+  <h1>Edit Technician</h1>
+  <small><%= @technician.email %></small>
+</div>
+
+<% if @technician.assigned_service_requests.where(status: [:assigned, :in_diagnosis, :in_repair]).any? %>
+  <div class="alert alert--warning">
+    This technician has <strong>
+      <%= @technician.assigned_service_requests.where(status: [:assigned, :in_diagnosis, :in_repair]).count %>
+    </strong> open request(s). Deactivating will prevent new assignments but existing requests remain.
+  </div>
+<% end %>
+
+<%= render "form", technician: @technician %>

@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h1>Customer Profile</h1>
+  <%= link_to "← Back to Customers", admin_customers_path %>
+</div>
+
+<div class="detail-card">
+  <dl class="detail-list">
+    <dt>Email</dt>
+    <dd><%= @customer.email %></dd>
+
+    <dt>Joined</dt>
+    <dd><%= @customer.created_at.strftime("%d %b %Y") %></dd>
+
+    <dt>Total Requests</dt>
+    <dd><%= @service_requests.count %></dd>
+  </dl>
+</div>
+
+<h2>Service History</h2>
+
+<% if @service_requests.empty? %>
+  <p class="empty-state">No service requests.</p>
+<% else %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Device</th>
+        <th>Status</th>
+        <th>Technician</th>
+        <th>Submitted</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @service_requests.each do |sr| %>
+        <tr>
+          <td><%= sr.id %></td>
+          <td><%= sr.device_brand %> <%= sr.device_model %></td>
+          <td><span class="badge badge--<%= sr.status %>"><%= sr.status.humanize %></span></td>
+          <td><%= sr.technician&.email || "—" %></td>
+          <td><%= sr.created_at.strftime("%d %b %Y") %></td>
+          <td><%= link_to "View", admin_service_request_path(sr), class: "btn btn--sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

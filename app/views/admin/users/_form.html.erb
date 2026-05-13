@@ -1,0 +1,35 @@
+<%= form_with model: [:admin, technician], class: "form" do |f| %>
+  <%= render "shared/form_errors", object: technician %>
+
+  <div class="form__group">
+    <%= f.label :email %>
+    <%= f.email_field :email, required: true, autocomplete: "off" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :password, technician.persisted? ? "New Password (leave blank to keep current)" : "Password" %>
+    <%= f.password_field :password,
+        required: !technician.persisted?,
+        autocomplete: "new-password",
+        minlength: 6 %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :password_confirmation, "Confirm Password" %>
+    <%= f.password_field :password_confirmation,
+        required: !technician.persisted?,
+        autocomplete: "new-password" %>
+  </div>
+
+  <% if technician.persisted? %>
+    <div class="form__group form__group--checkbox">
+      <%= f.check_box :active %>
+      <%= f.label :active, "Account active (uncheck to deactivate)" %>
+    </div>
+  <% end %>
+
+  <div class="form__actions">
+    <%= f.submit technician.persisted? ? "Update Technician" : "Create Technician", class: "btn btn--primary" %>
+    <%= link_to "Cancel", admin_users_path, class: "btn btn--secondary" %>
+  </div>
+<% end %>

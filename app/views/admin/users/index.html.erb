@@ -1,0 +1,37 @@
+<div class="page-header">
+  <h1>Technicians</h1>
+  <%= link_to "Add Technician", new_admin_user_path, class: "btn btn--primary" %>
+</div>
+
+<% if @technicians.empty? %>
+  <p class="empty-state">No technicians yet.</p>
+<% else %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Open Requests</th>
+        <th>Joined</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @technicians.each do |tech| %>
+        <tr class="<%= 'row--inactive' unless tech.active? %>">
+          <td><%= tech.email %></td>
+          <td>
+            <% if tech.active? %>
+              <span class="badge badge--active">Active</span>
+            <% else %>
+              <span class="badge badge--inactive">Deactivated</span>
+            <% end %>
+          </td>
+          <td><%= tech.assigned_service_requests.where(status: [:assigned, :in_diagnosis, :in_repair]).count %></td>
+          <td><%= tech.created_at.strftime("%d %b %Y") %></td>
+          <td><%= link_to "Edit", edit_admin_user_path(tech), class: "btn btn--sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1>Customers</h1>
+  <span class="count-badge"><%= @customers.count %> registered</span>
+</div>
+
+<% if @customers.empty? %>
+  <p class="empty-state">No customers registered yet.</p>
+<% else %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Total Requests</th>
+        <th>Open Requests</th>
+        <th>Joined</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |customer| %>
+        <tr>
+          <td><%= customer.email %></td>
+          <td><%= customer.service_requests.count %></td>
+          <td><%= customer.service_requests.where.not(status: [:completed, :cancelled]).count %></td>
+          <td><%= customer.created_at.strftime("%d %b %Y") %></td>
+          <td><%= link_to "View Profile", admin_customer_path(customer), class: "btn btn--sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
