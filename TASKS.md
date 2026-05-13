@@ -9,7 +9,7 @@ Status legend: `[ ]` pending · `[x]` done
 ## Phase 1 — Foundation
 
 ### T01 · Devise Authentication Setup
-- [ ] **Task**
+- [x] **Task**
 
   Add Devise gem, install it, generate `User` model with email + password auth. Configure sign-in, sign-out, registration routes. Customers self-register; admins create technician accounts (no public signup for technician/admin).
 
@@ -32,7 +32,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T02 · User Roles & RBAC
-- [ ] **Task**
+- [x] **Task**
 
   Add `role` enum column to `User` (`customer`, `technician`, `admin`). Default new self-registrations to `customer`. Add helper methods (`admin?`, `technician?`, `customer?`). Add `ApplicationController` before_action `authenticate_user!` and role-guard concern `Authorizable` that raises 403 for wrong-role access.
 
@@ -54,7 +54,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T03 · Base Layouts & Navigation Per Role
-- [ ] **Task**
+- [x] **Task**
 
   Create three scoped layouts (or one layout with conditional nav): `admin`, `technician`, `customer`. Each shows role-appropriate nav links. Set up root route that redirects to role-specific dashboard after login.
 

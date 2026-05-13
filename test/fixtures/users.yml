@@ -1,0 +1,23 @@
+admin:
+  email: admin@fixithub.test
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
+  role: admin
+  active: true
+
+technician:
+  email: tech@fixithub.test
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
+  role: technician
+  active: true
+
+inactive_technician:
+  email: inactive@fixithub.test
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
+  role: technician
+  active: false
+
+customer:
+  email: customer@fixithub.test
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
+  role: customer
+  active: true

@@ -1,0 +1,24 @@
+<div class="page-header">
+  <h1>Admin Dashboard</h1>
+  <p>Welcome, <%= current_user.email %></p>
+</div>
+
+<div class="dashboard-grid">
+  <div class="dashboard-card">
+    <h2>Service Queue</h2>
+    <p>Manage and assign incoming service requests.</p>
+    <%= link_to "View Queue", admin_service_requests_path, class: "btn btn--primary" %>
+  </div>
+
+  <div class="dashboard-card">
+    <h2>Technicians</h2>
+    <p>Manage technician accounts.</p>
+    <%= link_to "Manage Technicians", admin_users_path, class: "btn btn--secondary" %>
+  </div>
+
+  <div class="dashboard-card">
+    <h2>Analytics</h2>
+    <p>View performance reports and trends.</p>
+    <%= link_to "View Analytics", admin_analytics_path, class: "btn btn--secondary" %>
+  </div>
+</div>
