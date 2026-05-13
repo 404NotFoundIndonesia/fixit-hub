@@ -126,6 +126,99 @@ rails server
 
 Open `http://localhost:3000` in your browser to access FixIT Hub.
 
+## Docker
+
+FixIT Hub ships with a multi-stage `Dockerfile` and two Compose files — one for local development and one for production (Traefik-backed HTTPS).
+
+### Development
+
+**1. Copy the dev env file and fill in values:**
+
+```shell
+cp .env.dev.example .env.dev
+```
+
+The defaults in `.env.dev.example` work out of the box for local use — you only need to set a real `SECRET_KEY_BASE`:
+
+```shell
+# Generate a key
+docker compose -f docker-compose.dev.yml run --rm web bundle exec rails secret
+```
+
+Paste the output into `.env.dev` as `SECRET_KEY_BASE`.
+
+**2. Start the stack:**
+
+```shell
+docker compose -f docker-compose.dev.yml up
+```
+
+This starts three services: `web` (Rails on port 3000), `db` (PostgreSQL 16), and `redis` (Redis 7).  
+Source code is bind-mounted so edits reload live without rebuilding.
+
+**3. First-time database setup:**
+
+```shell
+docker compose -f docker-compose.dev.yml run --rm web rails db:setup
+```
+
+This creates the database, runs migrations, and seeds demo data (see [Demo Accounts](#demo-accounts) above).
+
+**4. Open** `http://localhost:3000`.
+
+**Subsequent runs** — just `docker compose -f docker-compose.dev.yml up`. Re-run `rails db:migrate` after pulling schema changes.
+
+---
+
+### Production
+
+Production uses the optimised `production` build stage (precompiled assets, no dev/test gems, non-root user) and routes traffic through [Traefik](https://traefik.io/) for automatic HTTPS via Let's Encrypt.
+
+**Prerequisites:**
+- A running Traefik instance attached to the `traefik_public` Docker network.
+- A DNS A record pointing your domain to the server.
+
+**1. Copy and fill in the prod env file:**
+
+```shell
+cp .env.prod.example .env.prod
+```
+
+| Variable | Description |
+|----------|-------------|
+| `APP_DOMAIN` | Your domain (e.g. `fixit-hub.example.com`) |
+| `POSTGRES_PASSWORD` | Strong DB password |
+| `SECRET_KEY_BASE` | Run `bundle exec rails secret` to generate |
+| `RAILS_MASTER_KEY` | Contents of `config/master.key` — never commit this |
+
+**2. First deploy — migrate then start:**
+
+```shell
+docker compose -f docker-compose.prod.yml run --rm web rails db:migrate
+docker compose -f docker-compose.prod.yml up -d
+```
+
+**3. Subsequent deploys:**
+
+```shell
+docker compose -f docker-compose.prod.yml pull
+docker compose -f docker-compose.prod.yml up -d --no-deps web
+docker compose -f docker-compose.prod.yml run --rm web rails db:migrate
+```
+
+**Useful commands:**
+
+```shell
+# Tail logs
+docker compose -f docker-compose.prod.yml logs -f web
+
+# Open a Rails console
+docker compose -f docker-compose.prod.yml exec web rails console
+
+# Run seeds (idempotent)
+docker compose -f docker-compose.prod.yml exec web rails db:seed
+```
+
 ## License
 
 __FixIT Hub__ is open-sourced software licensed under the [MIT license](https://github.com/404NotFoundIndonesia/fixit-hub?tab=MIT-1-ov-file).
