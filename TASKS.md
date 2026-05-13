@@ -427,7 +427,7 @@ Status legend: `[ ]` pending · `[x]` done
 ## Phase 7 — Cross-cutting: Authorization Hardening
 
 ### T19 · Server-side Authorization Audit (Security)
-- [ ] **Task**
+- [x] **Task**
 
   Audit every controller action to confirm role-guard `before_action` is applied. No action should rely solely on UI-level hiding. Write a checklist-style test that exhaustively attempts cross-role access for every sensitive route.
 
