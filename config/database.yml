@@ -1,24 +1,17 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem "sqlite3"
-#
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: <%= Rails.application.credentials.postgre_username %>
-  password: <%= Rails.application.credentials.postgre_password %>
-  host: <%= Rails.application.credentials.postgre_hostname %>
-  port: 5432
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # ENV vars take precedence (Docker). Falls back to encrypted credentials (local dev).
+  username: <%= ENV["POSTGRES_USER"] || Rails.application.credentials.postgre_username %>
+  password: <%= ENV["POSTGRES_PASSWORD"] || Rails.application.credentials.postgre_password %>
+  host: <%= ENV["POSTGRES_HOST"] || Rails.application.credentials.postgre_hostname || "localhost" %>
+  port: <%= ENV.fetch("POSTGRES_PORT", "5432") %>
 
 development:
   <<: *default
-  database: fixit_hub
+  database: <%= ENV.fetch("POSTGRES_DB", "fixit_hub") %>
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
   adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -27,4 +20,4 @@ test:
 
 production:
   <<: *default
-  database: fixit_hub
+  database: <%= ENV.fetch("POSTGRES_DB", "fixit_hub_production") %>

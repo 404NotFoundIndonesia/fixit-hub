@@ -1,0 +1,87 @@
+# ── FixIT Hub — Production (Traefik) ─────────────────────────────────────────
+#
+# Prerequisites:
+#   1. Traefik must be running (cd traefik && docker compose up -d)
+#   2. cp .env.prod.example .env.prod && fill in all values
+#
+# First deploy:
+#   docker compose -f docker-compose.prod.yml run --rm web rails db:migrate
+#   docker compose -f docker-compose.prod.yml up -d
+#
+# Subsequent deploys:
+#   docker compose -f docker-compose.prod.yml pull
+#   docker compose -f docker-compose.prod.yml up -d --no-deps web
+#   docker compose -f docker-compose.prod.yml run --rm web rails db:migrate
+
+services:
+  web:
+    build:
+      context: .
+      target: production
+    restart: unless-stopped
+    env_file:
+      - .env.prod
+    environment:
+      RAILS_ENV: production
+      RAILS_SERVE_STATIC_FILES: "true"
+      RAILS_LOG_TO_STDOUT: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - traefik_public
+      - internal
+    labels:
+      - "traefik.enable=true"
+      # Tell Traefik which network to use for this container
+      - "traefik.docker.network=traefik_public"
+
+      # ── Main HTTPS router ────────────────────────────────────────────────────
+      - "traefik.http.routers.fixit-hub.rule=Host(`${APP_DOMAIN}`)"
+      - "traefik.http.routers.fixit-hub.entrypoints=websecure"
+      - "traefik.http.routers.fixit-hub.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.fixit-hub.middlewares=security-headers@docker"
+      - "traefik.http.services.fixit-hub.loadbalancer.server.port=3000"
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env.prod
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    name: fixit_hub_postgres_data
+  redis_data:
+    name: fixit_hub_redis_data
+
+networks:
+  traefik_public:
+    external: true
+  internal:
+    internal: true

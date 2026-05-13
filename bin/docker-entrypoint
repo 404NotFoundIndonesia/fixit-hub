@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+# Remove stale Puma PID if the container restarted uncleanly
+rm -f tmp/pids/server.pid
+
+# In development, keep gems in sync whenever Gemfile changes
+if [ "${RAILS_ENV}" = "development" ]; then
+  bundle install
+fi
+
+exec "$@"

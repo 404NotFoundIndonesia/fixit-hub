@@ -1,0 +1,59 @@
+# ── FixIT Hub — Development ───────────────────────────────────────────────────
+#
+# Usage:
+#   cp .env.dev.example .env.dev
+#   docker compose -f docker-compose.dev.yml up
+#
+# First run / after schema changes:
+#   docker compose -f docker-compose.dev.yml run --rm web rails db:setup
+
+services:
+  web:
+    build:
+      context: .
+      target: development
+    volumes:
+      # Mount source for live reload
+      - .:/rails
+      # Persist gems across rebuilds
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.dev
+    environment:
+      RAILS_ENV: development
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env.dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+  bundle_cache:
