@@ -1,0 +1,55 @@
+<div class="page-header">
+  <h1>Service Request #<%= @service_request.id %></h1>
+  <%= link_to "← Back to My Requests", customer_service_requests_path %>
+</div>
+
+<div class="detail-card">
+  <div class="detail-card__status">
+    <span class="badge badge--<%= @service_request.status %>"><%= @service_request.status.humanize %></span>
+    <% if @service_request.technician %>
+      <span class="assigned-to">Assigned to: <strong><%= @service_request.technician.email %></strong></span>
+    <% end %>
+  </div>
+
+  <dl class="detail-list">
+    <dt>Device</dt>
+    <dd><%= @service_request.device_brand %> <%= @service_request.device_model %></dd>
+
+    <% if @service_request.serial_number.present? %>
+      <dt>Serial Number</dt>
+      <dd><%= @service_request.serial_number %></dd>
+    <% end %>
+
+    <dt>Issue Description</dt>
+    <dd><%= @service_request.issue_description %></dd>
+
+    <dt>Contact Info</dt>
+    <dd><%= @service_request.contact_info %></dd>
+
+    <dt>Submitted</dt>
+    <dd><%= @service_request.created_at.strftime("%d %b %Y at %H:%M") %></dd>
+
+    <% if @service_request.assigned_at %>
+      <dt>Assigned</dt>
+      <dd><%= @service_request.assigned_at.strftime("%d %b %Y at %H:%M") %></dd>
+    <% end %>
+
+    <% if @service_request.completed_at %>
+      <dt>Completed</dt>
+      <dd><%= @service_request.completed_at.strftime("%d %b %Y at %H:%M") %></dd>
+    <% end %>
+  </dl>
+</div>
+
+<% if @service_request.completed? && @service_request.service_notes.any? %>
+  <div class="repair-summary">
+    <h2>Repair Summary</h2>
+    <% @service_request.service_notes.order(:created_at).each do |note| %>
+      <div class="service-note service-note--<%= note.note_type %>">
+        <span class="service-note__type"><%= note.note_type.humanize %></span>
+        <p><%= note.body %></p>
+        <small><%= note.created_at.strftime("%d %b %Y") %></small>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1>Service Request Queue</h1>
+  <span class="count-badge"><%= @service_requests.count %> requests</span>
+</div>
+
+<%# Real-time updates from model broadcasts %>
+<%= turbo_stream_from "admin_service_requests" %>
+
+<%# Filters %>
+<%= form_with url: admin_service_requests_path, method: :get, class: "filter-form" do |f| %>
+  <%= f.select :status,
+      [["All Statuses", ""]] + ServiceRequest.statuses.keys.map { |s| [s.humanize, s] },
+      { selected: params[:status] } %>
+  <%= f.date_field :date_from, value: params[:date_from], placeholder: "From" %>
+  <%= f.date_field :date_to,   value: params[:date_to],   placeholder: "To" %>
+  <%= f.submit "Filter", class: "btn btn--secondary" %>
+  <%= link_to "Clear", admin_service_requests_path, class: "btn btn--sm" %>
+<% end %>
+
+<% if @service_requests.empty? %>
+  <p class="empty-state">No service requests found.</p>
+<% else %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Device</th>
+        <th>Customer</th>
+        <th>Technician</th>
+        <th>Status</th>
+        <th>Submitted</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="service_requests_table">
+      <% @service_requests.each do |sr| %>
+        <%= render "admin/service_requests/service_request", service_request: sr %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

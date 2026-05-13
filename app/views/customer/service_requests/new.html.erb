@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1>Submit Service Request</h1>
+</div>
+
+<%= form_with model: [:customer, @service_request], class: "form" do |f| %>
+  <%= render "shared/form_errors", object: @service_request %>
+
+  <div class="form__group">
+    <%= f.label :device_brand, "Device Brand *" %>
+    <%= f.text_field :device_brand, placeholder: "e.g. HP, Dell, Lenovo", required: true %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :device_model, "Device Model *" %>
+    <%= f.text_field :device_model, placeholder: "e.g. Pavilion 15-eh1", required: true %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :serial_number, "Serial Number" %>
+    <%= f.text_field :serial_number, placeholder: "Optional — found on label under device" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :issue_description, "Issue Description *" %>
+    <%= f.text_area :issue_description, rows: 5,
+        placeholder: "Describe the problem in detail — when it started, what symptoms you see", required: true %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :contact_info, "Contact Info *" %>
+    <%= f.text_field :contact_info, placeholder: "Phone number or email to reach you", required: true %>
+  </div>
+
+  <div class="form__actions">
+    <%= f.submit "Submit Request", class: "btn btn--primary" %>
+    <%= link_to "Cancel", customer_service_requests_path, class: "btn btn--secondary" %>
+  </div>
+<% end %>

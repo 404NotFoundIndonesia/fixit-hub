@@ -1,0 +1,78 @@
+<div class="page-header">
+  <h1>Service Request #<%= @service_request.id %></h1>
+  <%= link_to "← Back to Queue", admin_service_requests_path %>
+</div>
+
+<div class="detail-card">
+  <div class="detail-card__status">
+    <span class="badge badge--<%= @service_request.status %>"><%= @service_request.status.humanize %></span>
+  </div>
+
+  <dl class="detail-list">
+    <dt>Customer</dt>
+    <dd><%= @service_request.customer.email %></dd>
+
+    <dt>Device</dt>
+    <dd><%= @service_request.device_brand %> <%= @service_request.device_model %></dd>
+
+    <% if @service_request.serial_number.present? %>
+      <dt>Serial Number</dt>
+      <dd><%= @service_request.serial_number %></dd>
+    <% end %>
+
+    <dt>Issue Description</dt>
+    <dd><%= @service_request.issue_description %></dd>
+
+    <dt>Contact Info</dt>
+    <dd><%= @service_request.contact_info %></dd>
+
+    <dt>Submitted</dt>
+    <dd><%= @service_request.created_at.strftime("%d %b %Y at %H:%M") %></dd>
+
+    <% if @service_request.assigned_at %>
+      <dt>Assigned At</dt>
+      <dd><%= @service_request.assigned_at.strftime("%d %b %Y at %H:%M") %></dd>
+    <% end %>
+
+    <% if @service_request.completed_at %>
+      <dt>Completed At</dt>
+      <dd><%= @service_request.completed_at.strftime("%d %b %Y at %H:%M") %></dd>
+    <% end %>
+  </dl>
+</div>
+
+<%# Assignment form — not shown for completed/cancelled %>
+<% unless @service_request.completed? || @service_request.cancelled? %>
+  <div class="assign-section">
+    <h2><%= @service_request.technician ? "Reassign" : "Assign" %> Technician</h2>
+    <% if @service_request.technician %>
+      <p>Currently assigned: <strong><%= @service_request.technician.email %></strong></p>
+    <% end %>
+
+    <%= form_with url: assign_admin_service_request_path(@service_request), method: :patch, class: "form form--inline" do |f| %>
+      <%= f.select :technician_id,
+          @technicians.map { |t|
+            load = t.assigned_service_requests.where(status: [:assigned, :in_diagnosis, :in_repair]).count
+            ["#{t.email} (#{load} active)", t.id]
+          },
+          { include_blank: "Select technician" } %>
+      <%= f.submit "Assign", class: "btn btn--primary" %>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Notes (read-only for admin) %>
+<% if @service_request.service_notes.any? %>
+  <div class="notes-section">
+    <h2>Technician Notes</h2>
+    <% @service_request.service_notes.order(:created_at).each do |note| %>
+      <div class="service-note service-note--<%= note.note_type %>">
+        <div class="service-note__header">
+          <span class="service-note__type"><%= note.note_type.humanize %></span>
+          <small><%= note.created_at.strftime("%d %b %Y %H:%M") %></small>
+        </div>
+        <p><%= note.body %></p>
+      </div>
+    <% end %>
+  </div>
+<% end %>

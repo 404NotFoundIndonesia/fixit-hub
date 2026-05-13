@@ -1,0 +1,9 @@
+<tr id="service_request_<%= service_request.id %>">
+  <td><%= service_request.id %></td>
+  <td><%= service_request.device_brand %> <%= service_request.device_model %></td>
+  <td><%= service_request.customer.email %></td>
+  <td><%= service_request.technician&.email || "—" %></td>
+  <td><span class="badge badge--<%= service_request.status %>"><%= service_request.status.humanize %></span></td>
+  <td><%= service_request.created_at.strftime("%d %b %Y") %></td>
+  <td><%= link_to "View", admin_service_request_path(service_request), class: "btn btn--sm" %></td>
+</tr>

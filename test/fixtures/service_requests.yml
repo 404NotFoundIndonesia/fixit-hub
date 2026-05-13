@@ -1,0 +1,42 @@
+submitted_request:
+  customer: customer
+  device_brand: HP
+  device_model: Pavilion 15
+  serial_number: SN12345
+  issue_description: Screen flickering and sometimes goes black
+  contact_info: customer@fixithub.test
+  status: 0
+
+assigned_request:
+  customer: customer
+  technician: technician
+  device_brand: Dell
+  device_model: Inspiron 14
+  serial_number: SN67890
+  issue_description: Battery not charging
+  contact_info: customer@fixithub.test
+  status: 1
+  assigned_at: <%= 1.hour.ago %>
+
+in_diagnosis_request:
+  customer: customer
+  technician: technician
+  device_brand: Lenovo
+  device_model: ThinkPad X1
+  serial_number: SN11111
+  issue_description: Keyboard keys sticking
+  contact_info: customer@fixithub.test
+  status: 2
+  assigned_at: <%= 2.hours.ago %>
+
+completed_request:
+  customer: customer
+  technician: technician
+  device_brand: Asus
+  device_model: VivoBook 14
+  serial_number: SN22222
+  issue_description: Overheating
+  contact_info: customer@fixithub.test
+  status: 4
+  assigned_at: <%= 2.days.ago %>
+  completed_at: <%= 1.day.ago %>

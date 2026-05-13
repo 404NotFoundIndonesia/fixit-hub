@@ -1,0 +1,22 @@
+<%= form_with model: [:technician, service_request, service_note],
+              id: "new_service_note_form",
+              class: "form form--inline" do |f| %>
+  <%= render "shared/form_errors", object: service_note %>
+
+  <div class="form__group">
+    <%= f.label :note_type, "Note Type" %>
+    <%= f.select :note_type,
+        ServiceNote.note_types.keys.map { |t| [t.humanize, t] },
+        { include_blank: false },
+        class: "form__select" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :body, "Note" %>
+    <%= f.text_area :body, rows: 4, placeholder: "Describe findings, steps taken, or completion summary..." %>
+  </div>
+
+  <div class="form__actions">
+    <%= f.submit "Add Note", class: "btn btn--primary" %>
+  </div>
+<% end %>

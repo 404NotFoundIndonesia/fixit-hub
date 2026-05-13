@@ -1,0 +1,63 @@
+<div class="page-header">
+  <h1>Service Request #<%= @service_request.id %></h1>
+  <%= link_to "← Back to Queue", technician_service_requests_path %>
+</div>
+
+<%# Status badge + advance action %>
+<div id="service_request_status_<%= @service_request.id %>" class="status-section">
+  <span class="badge badge--<%= @service_request.status %>">
+    <%= @service_request.status.humanize %>
+  </span>
+
+  <% next_status = @service_request.next_status %>
+  <% if next_status %>
+    <%= button_to "Advance to #{next_status.humanize}",
+        update_status_technician_service_request_path(@service_request),
+        params: { status: next_status },
+        method: :patch,
+        class: "btn btn--primary",
+        data: { turbo_confirm: "Move to #{next_status.humanize}?" } %>
+  <% end %>
+</div>
+
+<div class="detail-card">
+  <dl class="detail-list">
+    <dt>Customer</dt>
+    <dd><%= @service_request.customer.email %></dd>
+
+    <dt>Device</dt>
+    <dd><%= @service_request.device_brand %> <%= @service_request.device_model %></dd>
+
+    <% if @service_request.serial_number.present? %>
+      <dt>Serial Number</dt>
+      <dd><%= @service_request.serial_number %></dd>
+    <% end %>
+
+    <dt>Issue Description</dt>
+    <dd><%= @service_request.issue_description %></dd>
+
+    <dt>Contact Info</dt>
+    <dd><%= @service_request.contact_info %></dd>
+
+    <dt>Submitted</dt>
+    <dd><%= @service_request.created_at.strftime("%d %b %Y at %H:%M") %></dd>
+  </dl>
+</div>
+
+<%# Notes section %>
+<div class="notes-section">
+  <h2>Diagnosis & Repair Notes</h2>
+
+  <%= turbo_stream_from "service_request_#{@service_request.id}_notes" %>
+
+  <div id="service_notes_list">
+    <%= render @service_request.service_notes.order(:created_at) %>
+  </div>
+
+  <%# New note form %>
+  <div id="new_service_note_form">
+    <%= render "technician/service_notes/form",
+               service_request: @service_request,
+               service_note: @service_note %>
+  </div>
+</div>

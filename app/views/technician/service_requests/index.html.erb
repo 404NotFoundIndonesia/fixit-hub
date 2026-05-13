@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h1>My Queue</h1>
+  <span class="count-badge"><%= @service_requests.count %> assigned</span>
+</div>
+
+<% if @service_requests.empty? %>
+  <p class="empty-state">No requests assigned to you yet.</p>
+<% else %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Device</th>
+        <th>Customer</th>
+        <th>Status</th>
+        <th>Last Updated</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @service_requests.each do |sr| %>
+        <tr>
+          <td><%= sr.id %></td>
+          <td><%= sr.device_brand %> <%= sr.device_model %></td>
+          <td><%= sr.customer.email %></td>
+          <td><span class="badge badge--<%= sr.status %>"><%= sr.status.humanize %></span></td>
+          <td><%= sr.updated_at.strftime("%d %b %Y %H:%M") %></td>
+          <td><%= link_to "Open", technician_service_request_path(sr), class: "btn btn--sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,11 @@
+<%# Append the new note to the list %>
+<%= turbo_stream.append "service_notes_list",
+    partial: "technician/service_notes/service_note",
+    locals: { service_note: @service_note } %>
+
+<%# Reset the form %>
+<%= turbo_stream.replace "new_service_note_form" do %>
+  <%= render "technician/service_notes/form",
+             service_request: @service_request,
+             service_note: ServiceNote.new %>
+<% end %>

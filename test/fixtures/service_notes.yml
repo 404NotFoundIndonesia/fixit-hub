@@ -1,0 +1,11 @@
+diagnosis_note:
+  service_request: in_diagnosis_request
+  technician: technician
+  note_type: 0
+  body: Keyboard membrane is damaged, requires replacement
+
+completion_note:
+  service_request: completed_request
+  technician: technician
+  note_type: 2
+  body: Replaced thermal paste and cleaned cooling fan. Device temperature normal.

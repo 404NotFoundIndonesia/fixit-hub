@@ -4,6 +4,11 @@ class User < ApplicationRecord
 
   enum role: { customer: 0, technician: 1, admin: 2 }
 
+  has_many :service_requests,          foreign_key: :customer_id,   dependent: :destroy
+  has_many :assigned_service_requests, foreign_key: :technician_id, dependent: :nullify,
+                                       class_name: "ServiceRequest"
+  has_many :service_notes,             foreign_key: :technician_id, dependent: :destroy
+
   # Prevent role from being mass-assigned through public params
   attr_readonly :role
 

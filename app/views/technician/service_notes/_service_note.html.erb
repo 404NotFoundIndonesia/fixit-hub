@@ -1,0 +1,7 @@
+<div id="<%= dom_id(service_note) %>" class="service-note service-note--<%= service_note.note_type %>">
+  <div class="service-note__header">
+    <span class="service-note__type"><%= service_note.note_type.humanize %></span>
+    <small class="service-note__time"><%= service_note.created_at.strftime("%d %b %Y %H:%M") %></small>
+  </div>
+  <p class="service-note__body"><%= service_note.body %></p>
+</div>

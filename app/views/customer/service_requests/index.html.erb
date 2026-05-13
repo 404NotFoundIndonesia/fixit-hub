@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1>My Service Requests</h1>
+  <%= link_to "New Request", new_customer_service_request_path, class: "btn btn--cta" %>
+</div>
+
+<% if @service_requests.empty? %>
+  <p class="empty-state">No service requests yet. <%= link_to "Submit one now", new_customer_service_request_path %>.</p>
+<% else %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Device</th>
+        <th>Status</th>
+        <th>Submitted</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @service_requests.each do |sr| %>
+        <tr>
+          <td><%= sr.id %></td>
+          <td><%= sr.device_brand %> <%= sr.device_model %></td>
+          <td><span class="badge badge--<%= sr.status %>"><%= sr.status.humanize %></span></td>
+          <td><%= sr.created_at.strftime("%d %b %Y") %></td>
+          <td><%= link_to "View", customer_service_request_path(sr), class: "btn btn--sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

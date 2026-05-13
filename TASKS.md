@@ -76,7 +76,7 @@ Status legend: `[ ]` pending · `[x]` done
 ## Phase 2 — Service Requests
 
 ### T04 · ServiceRequest Model
-- [ ] **Task**
+- [x] **Task**
 
   Create `ServiceRequest` model with all fields from SR-01 and status state machine. Belongs to `customer` (User) and optionally `technician` (User).
 
@@ -109,7 +109,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T05 · Customer: Submit Service Request (SR-01)
-- [ ] **Task**
+- [x] **Task**
 
   Build `ServiceRequests` controller `new`/`create` actions scoped to customer role. Form collects device brand, model, serial number, issue description, contact info. On submit, status set to `submitted` automatically.
 
@@ -131,7 +131,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T06 · Customer: View Own Service Requests (SR-02, SR-05)
-- [ ] **Task**
+- [x] **Task**
 
   `index` lists customer's own requests with status badge. `show` displays full detail including repair notes (visible once `completed`).
 
@@ -153,7 +153,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T07 · Technician: Assigned Requests Dashboard (SR-06)
-- [ ] **Task**
+- [x] **Task**
 
   Technician dashboard lists service requests assigned to them, sorted by `status` priority (in_diagnosis > in_repair > assigned) then by `updated_at` ascending.
 
@@ -173,7 +173,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T08 · Technician: Update Status (SR-07)
-- [ ] **Task**
+- [x] **Task**
 
   Technician can advance status via a button/dropdown on the service request. Status flow: `assigned → in_diagnosis → in_repair → completed`. No skipping. Use Turbo Streams to update status badge in-place without full page reload.
 
@@ -194,7 +194,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T09 · Technician: Log Diagnosis & Repair Notes (SR-08, SR-09)
-- [ ] **Task**
+- [x] **Task**
 
   Create `ServiceNote` model for logging technician findings per service request. Technician can add notes at any time; final completion note is required to mark `completed`.
 
@@ -217,7 +217,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T10 · Admin: Service Request Queue (SR-11, SR-14)
-- [ ] **Task**
+- [x] **Task**
 
   Admin sees all service requests across all customers, filterable by status and date range. Real-time updates via Turbo Streams broadcast when any request status changes.
 
@@ -239,7 +239,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T11 · Admin: Assign & Reassign Service Requests (SR-12, SR-13)
-- [ ] **Task**
+- [x] **Task**
 
   Admin can assign an unassigned request to a technician, or reassign an already-assigned request to a different technician. Assignment transitions status from `submitted` → `assigned`. Reassignment keeps current status unless reverting.
 
