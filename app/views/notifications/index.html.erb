@@ -1,0 +1,10 @@
+<div class="page-header">
+  <h1>Notifications</h1>
+</div>
+
+<div id="notifications_list" class="notifications-list">
+  <%= render partial: "notifications/notification", collection: @notifications, as: :notification %>
+  <% if @notifications.empty? %>
+    <p class="empty-state">No notifications yet.</p>
+  <% end %>
+</div>

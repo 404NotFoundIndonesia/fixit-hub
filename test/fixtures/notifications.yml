@@ -1,0 +1,17 @@
+unread_notification:
+  user: customer
+  service_request: assigned_request
+  message: "Your service request has been assigned."
+  read_at:
+
+read_notification:
+  user: customer
+  service_request: completed_request
+  message: "Your service request has been completed."
+  read_at: 2026-01-01 10:00:00
+
+technician_notification:
+  user: technician
+  service_request: assigned_request
+  message: "Service request has been assigned to you."
+  read_at:

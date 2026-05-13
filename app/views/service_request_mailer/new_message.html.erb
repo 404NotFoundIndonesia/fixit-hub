@@ -1,0 +1,8 @@
+<h2>New Message on Your Service Request</h2>
+<p>Hi <%= @customer.email %>,</p>
+<p>
+  Your technician sent a message regarding service request
+  <strong>#<%= @service_request.id %></strong>:
+</p>
+<blockquote><%= @message.body %></blockquote>
+<p>Log in to FixIT Hub to reply.</p>

@@ -11,6 +11,7 @@
   </head>
 
   <body class="layout-technician">
+    <%= turbo_stream_from "notifications_user_#{current_user.id}" %>
     <nav class="navbar" data-controller="nav">
       <div class="navbar__brand">
         <%= link_to "FixIT Hub", technician_dashboard_path, class: "navbar__logo" %>
@@ -22,6 +23,7 @@
       <div class="navbar__links" data-nav-target="menu">
         <%= link_to "My Queue",  technician_dashboard_path,          class: "navbar__link" %>
         <%= link_to "Requests",  technician_service_requests_path,   class: "navbar__link" %>
+        <%= render "shared/notification_badge", unread_count: current_user.notifications.unread.count %>
         <div class="navbar__divider"></div>
         <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar__link navbar__link--signout" %>
       </div>

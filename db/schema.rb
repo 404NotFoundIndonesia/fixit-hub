@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_05_13_060400) do
+ActiveRecord::Schema[7.0].define(version: 2026_05_13_070000) do
   create_table "messages", force: :cascade do |t|
     t.integer "service_request_id", null: false
     t.integer "sender_id", null: false
@@ -19,6 +19,18 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_13_060400) do
     t.datetime "updated_at", null: false
     t.index ["sender_id"], name: "index_messages_on_sender_id"
     t.index ["service_request_id"], name: "index_messages_on_service_request_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "service_request_id", null: false
+    t.string "message", null: false
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_request_id"], name: "index_notifications_on_service_request_id"
+    t.index ["user_id", "read_at"], name: "index_notifications_on_user_id_and_read_at"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "service_notes", force: :cascade do |t|
@@ -67,6 +79,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_13_060400) do
 
   add_foreign_key "messages", "service_requests"
   add_foreign_key "messages", "users", column: "sender_id"
+  add_foreign_key "notifications", "service_requests"
+  add_foreign_key "notifications", "users"
   add_foreign_key "service_notes", "service_requests"
   add_foreign_key "service_notes", "users", column: "technician_id"
   add_foreign_key "service_requests", "users", column: "customer_id"

@@ -352,7 +352,7 @@ Status legend: `[ ]` pending · `[x]` done
 ## Phase 5 — Notifications
 
 ### T16 · In-App Status Change Notifications (NTF-01, NTF-02)
-- [ ] **Task**
+- [x] **Task**
 
   Create `Notification` model. When service request status changes, create a `Notification` for the relevant user (customer on any status change; technician on new assignment). Display unread count in nav badge; mark as read on view.
 
@@ -375,7 +375,7 @@ Status legend: `[ ]` pending · `[x]` done
 ---
 
 ### T17 · Email Notifications (NTF-01, NTF-03)
-- [ ] **Task**
+- [x] **Task**
 
   Send emails via Action Mailer when: (a) customer's service request status changes, (b) customer receives a new message from technician.
 

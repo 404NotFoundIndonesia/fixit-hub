@@ -1,0 +1,7 @@
+Service Request Status Update
+
+Hi <%= @customer.email %>,
+
+Your service request #<%= @service_request.id %> for <%= @service_request.device_brand %> <%= @service_request.device_model %> is now <%= @service_request.status.humanize %>.
+
+Log in to FixIT Hub to view the full details.

@@ -6,6 +6,7 @@ class Message < ApplicationRecord
   validate  :sender_is_participant
 
   after_create_commit :broadcast_to_thread
+  after_create_commit :notify_customer_of_message
 
   private
 
@@ -28,5 +29,11 @@ class Message < ApplicationRecord
       partial: "messages/message",
       locals: { message: self }
     )
+  end
+
+  def notify_customer_of_message
+    return unless service_request.technician_id.present? &&
+                  sender_id == service_request.technician_id
+    ServiceRequestMailer.new_message(self).deliver_later
   end
 end

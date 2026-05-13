@@ -2,8 +2,9 @@ class ServiceRequest < ApplicationRecord
   belongs_to :customer,   class_name: "User", foreign_key: :customer_id
   belongs_to :technician, class_name: "User", foreign_key: :technician_id, optional: true
 
-  has_many :service_notes, dependent: :destroy
-  has_many :messages,      dependent: :destroy
+  has_many :service_notes,  dependent: :destroy
+  has_many :messages,       dependent: :destroy
+  has_many :notifications,  dependent: :destroy
 
   enum status: {
     submitted:    0,
@@ -41,6 +42,7 @@ class ServiceRequest < ApplicationRecord
   # Callbacks to track timestamps and broadcast
   before_update :set_status_timestamps
   after_update_commit :broadcast_to_admin
+  after_update_commit :notify_on_status_change
 
   private
 
@@ -58,5 +60,11 @@ class ServiceRequest < ApplicationRecord
       partial: "admin/service_requests/service_request",
       locals: { service_request: self }
     )
+  end
+
+  def notify_on_status_change
+    return unless saved_change_to_status?
+    NotificationService.notify_status_change(self)
+    ServiceRequestMailer.status_changed(self).deliver_later
   end
 end

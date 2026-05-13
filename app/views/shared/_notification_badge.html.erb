@@ -1,0 +1,5 @@
+<span id="notification_badge">
+  <%= link_to notifications_path, class: "navbar__link navbar__link--notifications" do %>
+    Notifications<% if unread_count > 0 %> <span class="notification-count"><%= unread_count %></span><% end %>
+  <% end %>
+</span>
