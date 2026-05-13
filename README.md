@@ -10,6 +10,8 @@
 
 __FixIT Hub__ is a web-based application designed to streamline and manage the service and repair operations for HP and laptop devices. It provides a centralized platform for technicians, administrators, and customers to collaborate effectively, track service requests, and ensure timely resolution of device issues.
 
+<img alt="FixIT Hub Screenshot" src="docs/screenshot.png" />
+
 ## Goals
 
 - __Efficient Service Management__: Simplify the process of receiving, assigning, and completing service requests for HP and laptop devices.
