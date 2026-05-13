@@ -33,6 +33,10 @@ gem "redis", "~> 4.0"
 # Authentication
 gem "devise", "~> 4.9"
 
+# Gems moving out of Ruby stdlib in 3.4 (required by activesupport 7.0)
+gem "bigdecimal"
+gem "mutex_m"
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 

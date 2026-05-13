@@ -15,7 +15,8 @@ RUN apt-get update -qq && \
     && rm -rf /var/lib/apt/lists/*
 
 ENV RAILS_ENV=development \
-    BUNDLE_PATH=/usr/local/bundle
+    BUNDLE_PATH=/usr/local/bundle \
+    PATH="/rails/bin:/usr/local/bundle/bin:${PATH}"
 
 COPY bin/docker-entrypoint /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
@@ -39,7 +40,8 @@ RUN apt-get update -qq && \
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \
-    BUNDLE_WITHOUT="development test"
+    BUNDLE_WITHOUT="development test" \
+    PATH="/rails/bin:/usr/local/bundle/bin:${PATH}"
 
 
 # ── Build ──────────────────────────────────────────────────────────────────────
