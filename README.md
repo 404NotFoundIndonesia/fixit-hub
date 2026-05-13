@@ -94,6 +94,26 @@ Run the following command to create the database, run migrations, and seed data:
 rails db:setup
 ```
 
+> **Re-seeding** — `db/seeds.rb` is idempotent. Re-running `rails db:seed` will not create duplicates.
+
+### Demo Accounts
+
+After seeding, the following demo accounts are available:
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@fixithub.com | Admin1234! |
+| Technician | tech1@fixithub.com | Tech1234! |
+| Technician | tech2@fixithub.com | Tech1234! |
+| Technician | tech3@fixithub.com | Tech1234! |
+| Customer | customer1@fixithub.com | Customer1234! |
+| Customer | customer2@fixithub.com | Customer1234! |
+| Customer | customer3@fixithub.com | Customer1234! |
+| Customer | customer4@fixithub.com | Customer1234! |
+| Customer | customer5@fixithub.com | Customer1234! |
+
+The seed data includes service requests covering every status (`submitted`, `assigned`, `in_diagnosis`, `in_repair`, `completed`, `cancelled`) with sample messages and repair notes.
+
 ### How to Run
 
 To start the Rails server, make sure the terminal is in the root directory of the project and use the following command:

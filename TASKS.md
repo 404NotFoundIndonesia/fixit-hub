@@ -448,7 +448,7 @@ Status legend: `[ ]` pending · `[x]` done
 ## Phase 8 — Seed Data & Final Polish
 
 ### T20 · Seeds & Demo Data
-- [ ] **Task**
+- [x] **Task**
 
   `db/seeds.rb` creates: 1 admin, 3 technicians, 5 customers, and sample service requests in various statuses with messages and notes. Safe to re-run (idempotent with `find_or_create_by`).
 
