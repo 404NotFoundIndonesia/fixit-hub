@@ -1,6 +1,29 @@
 <div class="page-header">
-  <h1>My Service Requests</h1>
-  <p>Welcome, <%= current_user.email %></p>
+  <div>
+    <h1 class="page-header__title">My Repairs</h1>
+    <p style="margin:4px 0 0;font-size:14px;color:var(--c-text-2);">Welcome back, <%= current_user.email %></p>
+  </div>
+  <%= link_to "+ New Request", new_customer_service_request_path, class: "btn btn--cta" %>
+</div>
+
+<%# Quick stats %>
+<% total     = current_user.service_requests.count %>
+<% open      = current_user.service_requests.where.not(status: [:completed, :cancelled]).count %>
+<% completed = current_user.service_requests.completed.count %>
+
+<div class="dashboard-grid" style="margin-bottom:32px;">
+  <div class="dashboard-card dashboard-card--stat">
+    <div class="dashboard-card__stat"><%= total %></div>
+    <div class="dashboard-card__label">Total Requests</div>
+  </div>
+  <div class="dashboard-card dashboard-card--stat">
+    <div class="dashboard-card__stat dashboard-card__stat--alert"><%= open %></div>
+    <div class="dashboard-card__label">In Progress</div>
+  </div>
+  <div class="dashboard-card dashboard-card--stat">
+    <div class="dashboard-card__stat dashboard-card__stat--success"><%= completed %></div>
+    <div class="dashboard-card__label">Completed</div>
+  </div>
 </div>
 
 <div class="dashboard-grid">
@@ -12,7 +35,7 @@
 
   <div class="dashboard-card">
     <h2>New Request</h2>
-    <p>Submit a new device for repair.</p>
+    <p>Submit a new device for repair or diagnosis.</p>
     <%= link_to "Submit Request", new_customer_service_request_path, class: "btn btn--cta" %>
   </div>
 </div>

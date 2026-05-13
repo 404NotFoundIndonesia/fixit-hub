@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>FixIT Hub &mdash; Technician</title>
+    <title>FixIT Hub — Technician</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="layout-technician">
+  <body class="layout-technician" data-current-user-id="<%= current_user.id %>">
     <%= turbo_stream_from "notifications_user_#{current_user.id}" %>
+
     <nav class="navbar" data-controller="nav">
       <div class="navbar__brand">
         <%= link_to "FixIT Hub", technician_dashboard_path, class: "navbar__logo" %>
@@ -21,10 +21,11 @@
       <button class="navbar__toggle" data-action="click->nav#toggle" aria-label="Toggle navigation">&#9776;</button>
 
       <div class="navbar__links" data-nav-target="menu">
-        <%= link_to "My Queue",  technician_dashboard_path,          class: "navbar__link" %>
-        <%= link_to "Requests",  technician_service_requests_path,   class: "navbar__link" %>
+        <%= link_to "My Queue",  technician_dashboard_path,        class: "navbar__link" %>
+        <%= link_to "Requests",  technician_service_requests_path, class: "navbar__link" %>
         <%= render "shared/notification_badge", unread_count: current_user.notifications.unread.count %>
         <div class="navbar__divider"></div>
+        <%= link_to current_user.email, "#", class: "navbar__link text-muted text-sm" %>
         <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar__link navbar__link--signout" %>
       </div>
     </nav>

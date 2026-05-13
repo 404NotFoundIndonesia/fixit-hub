@@ -1,23 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>FixIT Hub</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="layout-auth">
+    <header class="auth-topbar">
+      <%= link_to "FixIT Hub", root_path, class: "navbar__logo" %>
+    </header>
+
     <% if notice.present? %>
-      <p class="flash flash--notice"><%= notice %></p>
+      <div style="max-width:480px;margin:16px auto 0;padding:0 16px;">
+        <p class="flash flash--notice"><%= notice %></p>
+      </div>
     <% end %>
     <% if alert.present? %>
-      <p class="flash flash--alert"><%= alert %></p>
+      <div style="max-width:480px;margin:16px auto 0;padding:0 16px;">
+        <p class="flash flash--alert"><%= alert %></p>
+      </div>
     <% end %>
 
-    <%= yield %>
+    <div class="auth-wrap">
+      <%= yield %>
+    </div>
   </body>
 </html>

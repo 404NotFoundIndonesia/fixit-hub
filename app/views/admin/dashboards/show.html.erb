@@ -1,24 +1,57 @@
 <div class="page-header">
-  <h1>Admin Dashboard</h1>
-  <p>Welcome, <%= current_user.email %></p>
+  <div>
+    <h1 class="page-header__title">Admin Dashboard</h1>
+    <p style="margin:4px 0 0;font-size:14px;color:var(--c-text-2);">Welcome back, <%= current_user.email %></p>
+  </div>
+</div>
+
+<%# Quick stats %>
+<% open_count      = ServiceRequest.where.not(status: [:completed, :cancelled]).count %>
+<% submitted_count = ServiceRequest.submitted.count %>
+<% completed_today = ServiceRequest.completed.where(completed_at: Time.current.beginning_of_day..).count %>
+<% tech_count      = User.technician.where(active: true).count %>
+
+<div class="dashboard-grid" style="margin-bottom:32px;">
+  <div class="dashboard-card dashboard-card--stat">
+    <div class="dashboard-card__stat"><%= open_count %></div>
+    <div class="dashboard-card__label">Open Requests</div>
+  </div>
+  <div class="dashboard-card dashboard-card--stat">
+    <div class="dashboard-card__stat dashboard-card__stat--alert"><%= submitted_count %></div>
+    <div class="dashboard-card__label">Awaiting Assignment</div>
+  </div>
+  <div class="dashboard-card dashboard-card--stat">
+    <div class="dashboard-card__stat dashboard-card__stat--success"><%= completed_today %></div>
+    <div class="dashboard-card__label">Completed Today</div>
+  </div>
+  <div class="dashboard-card dashboard-card--stat">
+    <div class="dashboard-card__stat"><%= tech_count %></div>
+    <div class="dashboard-card__label">Active Technicians</div>
+  </div>
 </div>
 
 <div class="dashboard-grid">
   <div class="dashboard-card">
     <h2>Service Queue</h2>
-    <p>Manage and assign incoming service requests.</p>
+    <p>Review, assign, and track all incoming repair requests.</p>
     <%= link_to "View Queue", admin_service_requests_path, class: "btn btn--primary" %>
   </div>
 
   <div class="dashboard-card">
     <h2>Technicians</h2>
-    <p>Manage technician accounts.</p>
+    <p>Add technicians and manage account access.</p>
     <%= link_to "Manage Technicians", admin_users_path, class: "btn btn--secondary" %>
   </div>
 
   <div class="dashboard-card">
+    <h2>Customers</h2>
+    <p>Browse customer profiles and service history.</p>
+    <%= link_to "View Customers", admin_customers_path, class: "btn btn--secondary" %>
+  </div>
+
+  <div class="dashboard-card">
     <h2>Analytics</h2>
-    <p>View performance reports and trends.</p>
+    <p>Performance reports, device trends, and resolution times.</p>
     <%= link_to "View Analytics", admin_analytics_path, class: "btn btn--secondary" %>
   </div>
 </div>
