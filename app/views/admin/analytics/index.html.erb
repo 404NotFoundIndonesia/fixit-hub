@@ -1,0 +1,103 @@
+<div class="page-header">
+  <h1>Analytics</h1>
+</div>
+
+<%# Date range filter %>
+<div class="filter-form">
+  <%= form_with url: admin_analytics_path, method: :get, local: true do |f| %>
+    <div class="filter-form__fields">
+      <div class="form-group">
+        <%= f.label :date_from, "From" %>
+        <%= f.date_field :date_from, value: @date_from, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :date_to, "To" %>
+        <%= f.date_field :date_to, value: @date_to, class: "form-control" %>
+      </div>
+      <%= f.submit "Apply", class: "btn btn--primary" %>
+    </div>
+  <% end %>
+</div>
+
+<%# RPT-01: Requests by status %>
+<section class="analytics-section">
+  <h2>Service Requests by Status
+    <span class="analytics-section__range">
+      (<%= @date_from.strftime("%d %b %Y") %> – <%= @date_to.strftime("%d %b %Y") %>)
+    </span>
+  </h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% ServiceRequest.statuses.each do |name, value| %>
+        <tr>
+          <td><%= name.humanize %></td>
+          <td><%= @by_status.fetch(value, 0) %></td>
+        </tr>
+      <% end %>
+      <tr class="data-table__total">
+        <td><strong>Total</strong></td>
+        <td><strong><%= @by_status.values.sum %></strong></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<%# RPT-02: Technician performance %>
+<section class="analytics-section">
+  <h2>Technician Performance</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Technician</th>
+        <th>Completed Requests</th>
+        <th>Avg Resolution Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @technician_stats.empty? %>
+        <tr><td colspan="3" class="empty-state">No technicians found.</td></tr>
+      <% else %>
+        <% @technician_stats.each do |stat| %>
+          <tr>
+            <td><%= stat[:technician].email %></td>
+            <td><%= stat[:completed_count] %></td>
+            <td><%= format_duration(stat[:avg_seconds]) %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+<%# RPT-03: Device trends %>
+<section class="analytics-section">
+  <h2>Device Repair Trends</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Requests</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @by_device.empty? %>
+        <tr><td colspan="3" class="empty-state">No data yet.</td></tr>
+      <% else %>
+        <% @by_device.each do |(brand, model), count| %>
+          <tr>
+            <td><%= brand %></td>
+            <td><%= model %></td>
+            <td><%= count %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</section>

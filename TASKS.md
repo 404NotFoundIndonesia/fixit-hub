@@ -399,7 +399,7 @@ Status legend: `[ ]` pending · `[x]` done
 ## Phase 6 — Analytics
 
 ### T18 · Admin Analytics Dashboard (RPT-01, RPT-02, RPT-03)
-- [ ] **Task**
+- [x] **Task**
 
   Build admin-only analytics page with three report sections: (1) service requests by status and date range, (2) technician performance metrics, (3) device repair trends by brand/model.
 
